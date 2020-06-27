@@ -10,15 +10,12 @@ app.get("/api/notes", (req, res) => {
   });
 });
 
-app.post("/notes", (req, res) => {
-  // console.log(req.body);
+app.post("/api/notes", (req, res) => {
+  console.log("req.body" + req.body);
   // return res.json(req.body);
   connection.query(
-    "INSERT INTO notes SET ?",
-    {
-      title: req.body.title,
-      text: req.body.text,
-    },
+    "INSERT INTO notes (title, text) VALUES (?, ?)",
+    [req.body.title, req.body.text],
     (err, response) => {
       return res.json(response);
     }
@@ -32,10 +29,9 @@ app.post("/notes", (req, res) => {
 // });
 
 app.delete("/api/notes", (req, res) => {
-
-    const id = req.params.id
-    console.log(id)
-  connection.query("DELETE FROM notes WHERE ?", {id: id}, (err, response) => {
+  const id = req.params.id;
+  console.log(id);
+  connection.query("DELETE FROM notes WHERE ?", { id: id }, (err, response) => {
     return res.json(response);
   });
 });
